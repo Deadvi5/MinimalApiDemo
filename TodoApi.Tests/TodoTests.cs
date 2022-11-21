@@ -119,14 +119,14 @@ public class TodoTests
         var client = application.CreateClient(userId);
         var response = await client.PostAsJsonAsync("/todos", new Todo { });
 
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
 
         var problemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
         Assert.NotNull(problemDetails);
 
         Assert.Equal("One or more validation errors occurred.", problemDetails.Title);
         Assert.NotEmpty(problemDetails.Errors);
-        Assert.Equal(new[] { "A title is required" }, problemDetails.Errors["title"]);
+        Assert.Equal(new[] { "Title is mandatory!" }, problemDetails.Errors["Title"]);
     }
 
     [Fact]

@@ -35,7 +35,7 @@ If you wish to view the collected telemetry, follow the steps below.
 1. Open [Prometheus in your browser](http://localhost:9090/)
 1. Query the collected metrics
 
-#### Spans
+#### Distributed trace
 
 1. Uncomment `.AddOtlpExporter` below `builder.Services.AddOpenTelemetryTracing`, in the `TodoApi/OpenTelemetryExtensions.cs` file
 1. Run Jaeger with Docker:

@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TodoApi;
+using TodoApi.Validation;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication
+    .CreateBuilder(args);
 
 // Configure auth
 builder.Services.AddAuthentication().AddJwtBearer();
@@ -19,6 +21,7 @@ builder.Services.Configure<SwaggerGeneratorOptions>(o => o.InferSecuritySchemes 
 // Configure OpenTelemetry
 builder.AddOpenTelemetry();
 
+builder.Services.AddSingleton<NewTodoValidator>();
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -29,14 +32,16 @@ if (app.Environment.IsDevelopment())
 
 app.Map("/", () => Results.Redirect("/swagger"));
 
+
+
 // Configure the APIs
 RouteGroupBuilder group = app.MapGroup("/todos");
-
+group.AddEndpointFilterFactory(ValidationFilter.ValidationFilterFactory);
 group.MapTodos();
 
 // Configure the prometheus endpoint for scraping metrics
 app.MapPrometheusScrapingEndpoint();
 // NOTE: This should only be exposed on an internal port!
-// .RequireHost("*:9100");
+//.RequireHost("*:9100");
 
 app.Run();

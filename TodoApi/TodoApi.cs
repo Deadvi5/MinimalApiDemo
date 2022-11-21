@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TodoApi.Validation;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace TodoApi;
@@ -30,19 +31,11 @@ internal static class TodoApi
         .Produces<Todo>()
         .Produces(Status404NotFound);
 
-        group.MapPost("/", async (TodoDbContext db, NewTodo newTodo, UserId owner) =>
+        group.MapPost("/", async (TodoDbContext db, [Validate] NewTodo newTodo, UserId owner) =>
         {
-            if (string.IsNullOrEmpty(newTodo.Title))
+            Todo todo = new()
             {
-                return Results.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    ["title"] = new[] { "A title is required" }
-                });
-            }
-
-            var todo = new Todo
-            {
-                Title = newTodo.Title,
+                Title = newTodo.Title!,
                 OwnerId = owner.Id
             };
 
@@ -61,17 +54,12 @@ internal static class TodoApi
                 return Results.BadRequest();
             }
 
-            var rowsAffected = await db.Todos.Where(t => t.Id == id && (t.OwnerId == owner.Id || owner.IsAdmin))
+            int rowsAffected = await db.Todos.Where(t => t.Id == id && (t.OwnerId == owner.Id || owner.IsAdmin))
                                              .ExecuteUpdateAsync(updates =>
                                                 updates.SetProperty(t => t.IsComplete, todo.IsComplete)
                                                        .SetProperty(t => t.Title, todo.Title));
 
-            if (rowsAffected == 0)
-            {
-                return Results.NotFound();
-            }
-
-            return Results.Ok();
+            return rowsAffected == 0 ? Results.NotFound() : Results.Ok();
         })
         .Produces(Status400BadRequest)
         .Produces(Status404NotFound)
@@ -79,15 +67,10 @@ internal static class TodoApi
 
         group.MapDelete("/{id}", async (TodoDbContext db, int id, UserId owner) =>
         {
-            var rowsAffected = await db.Todos.Where(t => t.Id == id && (t.OwnerId == owner.Id || owner.IsAdmin))
+            int rowsAffected = await db.Todos.Where(t => t.Id == id && (t.OwnerId == owner.Id || owner.IsAdmin))
                                              .ExecuteDeleteAsync();
 
-            if (rowsAffected == 0)
-            {
-                return Results.NotFound();
-            }
-
-            return Results.Ok();
+            return rowsAffected == 0 ? Results.NotFound() : Results.Ok();
         })
         .Produces(Status400BadRequest)
         .Produces(Status404NotFound)

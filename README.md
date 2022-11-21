@@ -15,7 +15,7 @@ Todo REST API samples using ASP.NET Core minimal APIs. It showcases:
 
 1. PostgreSQL intance: browse `Docker` folder and run `docker compose up`
 1. Install the **dotnet-ef** tool: `dotnet tool install dotnet-ef -g`
-1. Navigate to the TodoApi folder and run `dotnet ef database update` to create the database.
+1. Navigate to the `TodoApi` folder and run `dotnet ef database update` to create the database.
 1. Learn more about [dotnet-ef](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
 
 ### Authentication
@@ -28,14 +28,10 @@ Todo REST API samples using ASP.NET Core minimal APIs. It showcases:
 
 ### OpenTelemetry
 TodoApi uses OpenTelemetry to collect logs, metrics and spans.
-
 If you wish to view the collected telemetry, follow the steps below.
 
 #### Metrics
-1. Run Prometheus with Docker:
-```
-docker run -d -p 9090:9090 --name prometheus -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
-```
+1. Prometheus is included in Docker Compose
 1. Open [Prometheus in your browser](http://localhost:9090/)
 1. Query the collected metrics
 

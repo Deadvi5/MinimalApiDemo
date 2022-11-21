@@ -47,9 +47,3 @@ docker run -d --name jaeger -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 -e COLLECTOR_OTL
 1. Open [Jaeger in your browser](http://localhost:16686/)
 1. View the collected spans
 
-#### Logs
-
-1. Uncomment `.AddOtlpExporter` below `builder.Logging.AddOpenTelemetry`, in the `TodoApi/Extensions/OpenTelemetryExtensions.cs` file
-1. Find a Vendor that supports OpenTelemetry-based logging.
-
-Vendor support for OpenTelemetry-based logging is currently very limited.

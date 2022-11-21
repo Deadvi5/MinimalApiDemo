@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TodoApi;
@@ -21,7 +22,7 @@ builder.Services.Configure<SwaggerGeneratorOptions>(o => o.InferSecuritySchemes 
 // Configure OpenTelemetry
 builder.AddOpenTelemetry();
 
-builder.Services.AddSingleton<NewTodoValidator>();
+builder.Services.AddSingleton<IValidator<NewTodo>, NewTodoValidator>();
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -31,7 +32,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.Map("/", () => Results.Redirect("/swagger"));
-
 
 
 // Configure the APIs

@@ -31,7 +31,7 @@ internal static class TodoApi
         .Produces<Todo>()
         .Produces(Status404NotFound);
 
-        group.MapPost("/", async (TodoDbContext db, [Validate] NewTodo newTodo, UserId owner) =>
+        group.MapPost("/", async (TodoDbContext db, [Validate]NewTodo newTodo, UserId owner) =>
         {
             Todo todo = new()
             {

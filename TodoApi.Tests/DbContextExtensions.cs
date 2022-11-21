@@ -14,20 +14,16 @@ internal static class DbContextExtensions
         services.RemoveAll(typeof(DbContextOptions<TContext>));
 
         // Add the options as singletons since the IDbContextFactory as a singleton
-
         // Add the DbContextOptions<TContext>
         services.AddSingleton(s =>
         {
             var dbContextOptionsBuilder = new DbContextOptionsBuilder<TContext>();
-
             configure(dbContextOptionsBuilder);
-
             return dbContextOptionsBuilder.Options;
         });
 
         // The untyped version just calls the typed one
         services.AddSingleton<DbContextOptions>(s => s.GetRequiredService<DbContextOptions<TContext>>());
-
         return services;
     }
 }

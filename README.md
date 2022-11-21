@@ -12,10 +12,11 @@ Todo REST API samples using ASP.NET Core minimal APIs. It showcases:
 1. [Install .NET 7](https://dotnet.microsoft.com/en-us/download)
 
 ### Database
+
+1. PostgreSQL intance: browse `Docker` folder and run `docker compose up`
 1. Install the **dotnet-ef** tool: `dotnet tool install dotnet-ef -g`
 1. Navigate to the TodoApi folder and run `dotnet ef database update` to create the database.
 1. Learn more about [dotnet-ef](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
-1. Browse `Docker` Folder and run `docker compose up`
 
 ### Authentication
 1. Run `dotnet user-jwts create` to create a JWT token for your user and `dotnet user-jwts create -n admin --role admin` to create an admin user.

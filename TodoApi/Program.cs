@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TodoApi;
+using TodoApi.Services;
 using TodoApi.Validation;
 
 WebApplicationBuilder builder = WebApplication
@@ -23,6 +24,7 @@ builder.Services.Configure<SwaggerGeneratorOptions>(o => o.InferSecuritySchemes 
 builder.AddOpenTelemetry();
 
 builder.Services.AddSingleton<IValidator<NewTodo>, NewTodoValidator>();
+builder.Services.AddScoped<IPostTodoService, PostTodoService>();
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -36,7 +38,7 @@ app.Map("/", () => Results.Redirect("/swagger"));
 
 // Configure the APIs
 RouteGroupBuilder group = app.MapGroup("/todos");
-group.AddEndpointFilterFactory(ValidationFilter.ValidationFilterFactory);
+group.AddEndpointFilterFactory(FluentValidationFilter.ValidationFilterFactory);
 group.MapTodos();
 
 // Configure the prometheus endpoint for scraping metrics

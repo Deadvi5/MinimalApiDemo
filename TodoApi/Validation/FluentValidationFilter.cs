@@ -10,7 +10,7 @@ namespace TodoApi.Validation
     {
     }
 
-    public static class ValidationFilter
+    public static class FluentValidationFilter
     {
         public static EndpointFilterDelegate ValidationFilterFactory(EndpointFilterFactoryContext context, EndpointFilterDelegate next)
         {

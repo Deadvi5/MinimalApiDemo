@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TodoApi.Services;
 using TodoApi.Validation;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
@@ -31,17 +32,9 @@ internal static class TodoApi
         .Produces<Todo>()
         .Produces(Status404NotFound);
 
-        group.MapPost("/", async (TodoDbContext db, [Validate]NewTodo newTodo, UserId owner) =>
+        group.MapPost("/", async ([Validate]NewTodo newTodo, UserId owner, IPostTodoService postTodo) =>
         {
-            Todo todo = new()
-            {
-                Title = newTodo.Title!,
-                OwnerId = owner.Id
-            };
-
-            db.Todos.Add(todo);
-            await db.SaveChangesAsync();
-
+            var todo = await postTodo.PostTodoAsync(newTodo, owner);
             return Results.Created($"/todos/{todo.Id}", todo);
         })
        .Produces(Status201Created)

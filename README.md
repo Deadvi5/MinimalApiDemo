@@ -45,3 +45,10 @@ If you wish to view the collected telemetry, follow the steps below.
 1. Open [Jaeger in your browser](http://localhost:16686/)
 1. View the collected spans
 
+### Load Testing
+
+#### K6
+1. Install [k6](https://k6.io/docs/get-started/installation/)
+1. Browse `LoadTesting` folder
+1. Execute load test from terminal with `k6 run script.js` 
+

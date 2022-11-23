@@ -6,6 +6,7 @@ Todo REST API samples using ASP.NET Core minimal APIs. It showcases:
 - OpenAPI support
 - API Versioning
 - Writing tests for your REST API
+- HTTP2 ready
 
 ## Prerequisites
 

@@ -14,7 +14,9 @@ Todo REST API samples using ASP.NET Core minimal APIs. It showcases:
 
 ### Database
 
-1. PostgreSQL intance: browse `Docker` folder and run `docker compose up`
+1. PostgreSQL intance: browse `Docker` folder and run 
+    - `docker-start.bat` for Windows
+    - `docker-start.sh` for Linux/MacOS   
 1. Install the **dotnet-ef** tool: `dotnet tool install dotnet-ef -g`
 1. Navigate to the `TodoApi` folder and run `dotnet ef database update` to create the database.
 1. Learn more about [dotnet-ef](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)

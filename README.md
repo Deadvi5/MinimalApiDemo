@@ -1,9 +1,10 @@
-## Todo REST API with ASP.NET Core
+## Todo REST MINIMAL API
 
 Todo REST API samples using ASP.NET Core minimal APIs. It showcases:
 - Using EntityFramework and PostgreSQL for data access
 - JWT authentication
 - OpenAPI support
+- API Versioning
 - Writing tests for your REST API
 
 ## Prerequisites
@@ -37,13 +38,8 @@ If you wish to view the collected telemetry, follow the steps below.
 
 #### Distributed trace
 
+1. Jaeger is included in Docker Compose
 1. Uncomment `.AddOtlpExporter` below `builder.Services.AddOpenTelemetryTracing`, in the `TodoApi/OpenTelemetryExtensions.cs` file
-1. Run Jaeger with Docker:
-
-```
-docker run -d --name jaeger -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 -e COLLECTOR_OTLP_ENABLED=true -p 6831:6831/udp -p 6832:6832/udp -p 5778:5778 -p 16686:16686 -p 4317:4317 -p 4318:4318 -p 14250:14250 -p 14268:14268 -p 14269:14269 -p 9411:9411 jaegertracing/all-in-one:latest
-```
-
 1. Open [Jaeger in your browser](http://localhost:16686/)
 1. View the collected spans
 

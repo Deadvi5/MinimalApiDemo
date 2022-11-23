@@ -87,7 +87,7 @@ groupV1.MapTodos().WithApiVersionSet(versionSet).MapToApiVersion(1.0).HasApiVers
 
 RouteGroupBuilder groupV2 = app.MapGroup("/V2.0/todos");
 groupV2.AddEndpointFilterFactory(FluentValidationFilter.ValidationFilterFactory);
-groupV2.MapTodos().WithApiVersionSet(versionSet).MapToApiVersion(2.0).HasApiVersion(1.0); 
+groupV2.MapTodos().WithApiVersionSet(versionSet).MapToApiVersion(2.0).HasApiVersion(2.0); 
 
 // Configure the prometheus endpoint for scraping metrics
 app.MapPrometheusScrapingEndpoint();

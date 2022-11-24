@@ -32,16 +32,16 @@ services.AddApiVersioning(
                 // "api-supported-versions" and "api-deprecated-versions"
                 options.ReportApiVersions = true;
 
-                options.Policies.Sunset( 0.9 )
-                                .Effective( DateTimeOffset.Now.AddDays( 60 ) )
-                                .Link( "policy.html" )
-                                    .Title( "Versioning Policy" )
-                                    .Type( "text/html" );
+                options.Policies.Sunset(0.9)
+                                .Effective(DateTimeOffset.Now.AddDays(60))
+                                .Link("policy.html")
+                                    .Title("Versioning Policy")
+                                    .Type("text/html");
 
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.AssumeDefaultVersionWhenUnspecified = true;
 
-            } )
+            })
         .AddApiExplorer(
             options =>
             {
@@ -52,13 +52,13 @@ services.AddApiVersioning(
                 // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
                 // can also be used to control the format of the API version in route templates
                 options.SubstituteApiVersionInUrl = true;
-            } )
+            })
         // this enables binding ApiVersion as a endpoint callback parameter. if you don't use it, then
         // you should remove this configuration.
         .EnableApiVersionBinding();
 services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 services.Configure<SwaggerGeneratorOptions>(o => o.InferSecuritySchemes = true);
-services.AddSwaggerGen( options => options.OperationFilter<SwaggerDefaultValues>() );
+services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
 
 // Configure OpenTelemetry
 builder.AddOpenTelemetry();
@@ -80,14 +80,14 @@ ApiVersionSet versionSet = app.NewApiVersionSet()
                     .Build();
 
 // Configure the APIs
-RouteGroupBuilder groupV1 = app.MapGroup("/V1.0/todos");
+RouteGroupBuilder groupV1 = app.MapGroup("/v{version:apiVersion}/todos");
 groupV1.AddEndpointFilterFactory(FluentValidationFilter.ValidationFilterFactory);
 groupV1.MapTodos().WithApiVersionSet(versionSet).MapToApiVersion(1.0).HasApiVersion(1.0);
 
 
-RouteGroupBuilder groupV2 = app.MapGroup("/V2.0/todos");
+RouteGroupBuilder groupV2 = app.MapGroup("/v{version:apiVersion}/todos");
 groupV2.AddEndpointFilterFactory(FluentValidationFilter.ValidationFilterFactory);
-groupV2.MapTodos().WithApiVersionSet(versionSet).MapToApiVersion(2.0).HasApiVersion(2.0); 
+groupV2.MapTodos().WithApiVersionSet(versionSet).MapToApiVersion(2.0).HasApiVersion(2.0);
 
 // Configure the prometheus endpoint for scraping metrics
 app.MapPrometheusScrapingEndpoint();
@@ -104,13 +104,13 @@ if (!app.Environment.IsProduction())
             var descriptions = app.DescribeApiVersions();
 
             // build a swagger endpoint for each discovered API version
-            foreach ( var description in descriptions )
+            foreach (var description in descriptions)
             {
                 var url = $"/swagger/{description.GroupName}/swagger.json";
                 var name = description.GroupName.ToUpperInvariant();
-                options.SwaggerEndpoint( url, name );
+                options.SwaggerEndpoint(url, name);
             }
-        } );
+        });
 }
 
 app.Run();

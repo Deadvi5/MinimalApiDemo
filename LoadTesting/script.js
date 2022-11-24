@@ -14,7 +14,7 @@ export const options = {
 
 export default () => {
   const url =
-    "https://localhost:5001/V1.0/todos";
+    "https://localhost:5001/v1/todos";
 
   // const payload = JSON.stringify({
   // });
